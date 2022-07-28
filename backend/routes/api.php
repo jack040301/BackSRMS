@@ -31,7 +31,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
   
    
-   Route::get('/edb','EvaluationFormController@enrolldbprof')->middleware('auth:sanctum');
+   Route::get('/edb','EvaluationFormController@enrolldbprof');
 
 
 
@@ -217,3 +217,10 @@ Route::delete('/deleteRow/{evalid}','EvaluationFormController@deleteRow');
 
 
 Route::delete('/deleteRowGradesheet/{gsid}','GradesheetController@deleteRowGradesheet');
+
+
+//update gradesheet id
+
+Route::put('/updateGradesheet/{gradesheetid}','GradesheetController@updateGradesheet');
+
+

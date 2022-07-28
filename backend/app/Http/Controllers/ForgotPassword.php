@@ -101,7 +101,7 @@ class ForgotPassword extends Controller
 
         Mail::send([],$data, function($message) use ($data) {
             $message->to($data['email'])
-            ->from('uccscholasticmanagement@gmail.com')
+            ->from('ucc-escord-2021@laravelapi.fiply.tech')
             ->subject($data['subject'])
             ->setBody($data['content']);
           });

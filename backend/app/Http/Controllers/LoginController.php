@@ -7,6 +7,7 @@ use App\User;
 use App\Admin;
 use App\ProfessorAccount;
 use App\Scholinfo;
+use App\Manager;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -57,14 +58,18 @@ class LoginController extends Controller
         $staffusername = 101 . $request->userNo;
 
         $information = Admin::where('email', $request->email)->where('student_number', $staffusername)->limit(1)->count();
+        $information2 = User::where('email', $request->email)->limit(1)->count();
+        $information3 = ProfessorAccount::where('email', $request->email)->limit(1)->count();
+        $information4 = Manager::where('email', $request->email)->limit(1)->count();
+
      
-        if($information === 0) {
+        if($information === 0 && $information2 === 0 && $information3 === 0 && $information4 === 0) {
         $request->validate([
             'email' => 'required',
             'lastName' => 'required',
             'firstName' => 'required',
             'userNo' => 'required',
-            'middleName'=> 'required',
+           
 
         ]);
 
@@ -94,10 +99,12 @@ class LoginController extends Controller
         return response()->json(['message'=>'The account already existing']);
 
     }
+    
     }
 
     public function createaccountStudent(Request $request){
 
+       try { 
         $request->validate([
             'email' => 'required',
             'lastName' => 'required',
@@ -108,10 +115,15 @@ class LoginController extends Controller
      
        
         $information = User::where('email', $request->email)->orwhere('student_number', $request->userNo)->limit(1)->count();
+       
+        $information2 = Admin::where('email', $request->email)->limit(1)->count();
+
+        $information3 = ProfessorAccount::where('email', $request->email)->limit(1)->count();
+
+        $information4 = Manager::where('email', $request->email)->limit(1)->count();
 
 
-
-        if($information === 0) {
+        if($information === 0 && $information2 === 0 && $information3 === 0 && $information4 === 0) {
        
        
        $name = $request->firstName . " ". $request->middleName . " ". $request->lastName;
@@ -139,6 +151,7 @@ class LoginController extends Controller
             ]);
 
             
+
             return response()->json(['message'=>'Account Succesfully Created']);
 
         }else{
@@ -146,7 +159,11 @@ class LoginController extends Controller
             return response()->json(['message'=>'The account already existing']);
 
         }
-     
+
+    } catch(\Illuminate\Database\QueryException $ex){ 
+        return response()->json(['message'=>'The account already existing']);
+
+    }
  
 
     }
@@ -154,20 +171,28 @@ class LoginController extends Controller
     public function createProfessor(Request $request){
 
 
+       try{
         $request->validate([
             'profEmail' => 'required',
             'profFN' => 'required',
-            'profMI' => 'required',
             'profLN' => 'required',
             'profRank' => 'required',
         ]);
 
 
         $information = ProfessorAccount::where('email', $request->profEmail)->limit(1)->count();
+       
+     
+        $information2 = Admin::where('email', $request->profEmail)->limit(1)->count();
+       
+       
+        $information3 = User::where('email', $request->profEmail)->limit(1)->count();
+       
+        $information4 = Manager::where('email', $request->profEmail)->limit(1)->count();
 
      
        // ($request->getAttributes())->sendEmailVerificationNotification(),
-       if($information === 0) {
+       if($information === 0 && $information2 === 0 && $information3 === 0 && $information4 === 0) {
            
         $profPassword = Str::upper($request->profFN) . 'UCCescord@SRMS2020';
        
@@ -188,6 +213,11 @@ class LoginController extends Controller
         return response()->json(['message'=>'The account already existing']);
 
          }
+        } catch(\Illuminate\Database\QueryException $ex){ 
+            return response()->json(['message'=>'The account already existing']);
+    
+        }
+         
 
 
     }

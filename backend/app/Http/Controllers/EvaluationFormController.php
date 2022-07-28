@@ -139,7 +139,7 @@ return response()->json($student_detail);
             ['evalform_id' => $request->srms_id, 
             'subjectcode' =>  Str::upper($request->selectedSubjCode),
             'subjectdesc'  =>Str::upper($request->selectedSubject),
-            'grade'  => $request->selectedSubjUnit,
+            'grade'  => $request->subjFG,
             'units'  => $request->selectedSubjUnit,
             'finalgrade'  => $request->selectedSubjUnit, //change this to finalgrade
         ]);

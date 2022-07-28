@@ -23,7 +23,6 @@ class GradesheetController extends Controller
             'studNum' => 'required',
             'studFN' => 'required',
             'studLN' => 'required',
-            'studMI' => 'required',
             'studMG' => 'required',
             'studFG' => 'required',
             'finalgrade' => 'required',
@@ -290,10 +289,14 @@ $create = DB::table('gradeofstudents')->insert(
         return response()->json($gradesheetprof); */
 
 
-         return DB::table('gradsheetinfo')->where('professorID', $profid)->where('archieve', null)->when(request('search'), function($query) {
-            $query->where('course_short', 'like', '%' . request('search') . '%')->orWhere('subjectcode', 'like', '%' . request('search') . '%')
-            ->orWhere('sem_startyear', 'like', '%' . request('search') . '%')->orWhere('sem_endyear', 'like', '%' . request('search') . '%')->orWhere('gradesheetid', 'like', '%' . request('search') . '%');
-        })->paginate(5); 
+         $search = $request->get('search');
+
+         return DB::table('gradsheetinfo')->
+         where(function($q) use($search) {
+            $q->where('course_short', 'like', '%' . $search . '%')->orWhere('subjectcode', 'like', '%' . $search . '%')
+            ->orWhere('subjectdesc', 'like', '%' . $search . '%')
+            ->orWhere('sem_startyear', 'like', '%' . $search . '%')->orWhere('sem_endyear', 'like', '%' . $search . '%')->orWhere('gradesheetid', 'like', '%' . $search . '%');
+        })->where('professorID', '=',  $profid)->where('archieve','=',null)->paginate(5); 
 
      }
 
@@ -305,6 +308,29 @@ $create = DB::table('gradeofstudents')->insert(
         return response()->json($deleterow);
   
       }
+      
+      
+      public function updateGradesheet(Request $request,$gradeid){
+
+        $grades = GradesheetInfo::where('gradesheetid', '=', $gradeid)->firstOrFail();   
+
+        $updated = $grades->update($request->all());
+
+        if ($updated) {
+            return response()->json([
+                  'message' =>'Success Updated',
+                'grades' => $grades
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' =>'Not Updated, Please Fill the right data',
+            ], 500);
+        }
+
+
+      }
+
 
 
   

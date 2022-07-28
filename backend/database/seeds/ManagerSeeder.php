@@ -15,8 +15,10 @@ class ManagerSeeder extends Seeder
     {
         //
         DB::table('managers')->insert([
-            'name'=>'jacqueline porral',
-            'email'=>'superadmin@gmail.com',
+            'firstname'=>'Superadmin',
+            'middleinitial'=>'S',
+            'lastname'=>'Manager',
+            'email'=>'ucc.escord@gmail.com',
             'password'=>Hash::make('password123'),
             'user_role' => 'superadmin',]);
          

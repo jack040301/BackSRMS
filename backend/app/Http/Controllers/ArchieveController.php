@@ -21,7 +21,7 @@ class ArchieveController extends Controller
     ['archieve', '=', '1'],])->when(request('search'), function($query) {
         $query->where('course_short', 'like', '%' . request('search') . '%')->orWhere('gradesheetid', 'like', '%' . request('search') . '%')
         ->orWhere('course_year', 'like', '%' . request('search') . '%')->orWhere('course_section', 'like', '%' . request('search') . '%');
-    })->paginate(10);
+    })->orderBy('course_year','asc')->paginate(10);
       
     if ($gradesheet) {
         return response()->json($gradesheet

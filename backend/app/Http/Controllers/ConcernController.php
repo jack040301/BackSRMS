@@ -31,7 +31,7 @@ class ConcernController extends Controller
     }
 
     public function showConcernInMIS(Request $request){
-        $showconcern = DB::table('concern')->when(request('search'), function($query) {
+        $showconcern = DB::table('concern')->orderBy('created_at','desc')->when(request('search'), function($query) {
             $query->where('email', 'like', '%' . request('search') . '%')->orWhere('name', 'like', '%' . request('search') . '%')
             ->orWhere('message', 'like', '%' . request('search') . '%');
         })->paginate(10);

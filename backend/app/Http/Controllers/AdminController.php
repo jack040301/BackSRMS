@@ -27,7 +27,7 @@ class AdminController extends Controller
             'email' => 'required',
             'lastname' => 'required',
             'firstname' => 'required',
-            'middlename' => 'required',
+        
             'student_number' => 'required',
             'password' =>'required',
             'confirmpass'=>'required|same:password|'
@@ -62,7 +62,7 @@ public function updateAccountUser(Request $request, $id){
     $request->validate([
         'email' => 'required',
         'firstName'=>'required',
-        'middlename'=>'required',
+       
         'surname'=>'required',
         'student_number' => 'required',
         'password' => 'required',
@@ -100,7 +100,7 @@ public function updateAccountProf(Request $request, $profid){
     $request->validate([
         'email' => 'required',
         'firstname'=>'required',
-        'middleinitial' => 'required',
+      
         'lastname' => 'required',
         'faculty_rank' => 'required',
         'password' => 'required',
@@ -154,7 +154,7 @@ public function updateAccountManager(Request $request, $managerid){
         'email' => 'required',
         'firstname'=>'required',
         'lastname'=>'required',
-        'middleinitial' => 'required',
+     
         'password' => 'required',
         'confirmpass' => 'required|same:password|',
     ]);
